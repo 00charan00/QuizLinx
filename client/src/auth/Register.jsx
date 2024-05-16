@@ -21,7 +21,7 @@ function Register() {
         if (errors.name === "" && errors.email === "" && errors.password === "") {
             axios.post('http://localhost:8080/register', values)
                 .then(res => {
-                    navigate('/');
+                    navigate('/login');
                 })
                 .catch(err => console.log(err));
         }
@@ -97,7 +97,7 @@ function Register() {
                     </div>
                 </form>
                 <div className="text-center mt-2">
-                    <Link to="/" className="text-blue-500 hover:underline">Log In</Link>
+                    <Link to="/login" className="text-blue-500 hover:underline">Log In</Link>
                 </div>
             </div>
         </div>

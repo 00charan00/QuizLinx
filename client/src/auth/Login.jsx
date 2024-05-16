@@ -29,6 +29,7 @@ function Login() {
                 localStorage.setItem('token', token);
                 localStorage.setItem('userData', JSON.stringify(result));
                 navigate('/home');
+
             }
         } catch (error) {
             console.error('An unexpected error occurred:', error.message);

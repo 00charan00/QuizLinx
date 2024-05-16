@@ -12,6 +12,7 @@ const setRounds =10;
 app.use(express.json());
 app.use(cors({origin:'*'}));
 app.use(cookieparser());
+app.use(bodyParser.json());
 
 const db = mysql.createConnection({
     host: "localhost",
@@ -25,7 +26,7 @@ db.connect((err) => {
         console.error('Error connecting to database:', err);
         return;
     }
-    console.log('Connected to the database');
+    console.log("Connected to database");
 });
 //session
 app.use(
@@ -118,6 +119,121 @@ app.post('/login', async (req, res) => {
     );
 });
 
+//charan
+
+app.post('/quiz', (req, res) => {
+    const { quizName, questions } = req.body;
+
+    // Insert quiz into database
+    db.query('INSERT INTO quizzes (quiz_name) VALUES (?)', [quizName], (err, result) => {
+        if (err) {
+            console.error('Error inserting quiz:', err);
+            res.status(500).send('Error creating quiz');
+            return;
+        }
+
+        const quizId = result.insertId;
+
+        // Insert questions into database
+        const questionValues = questions.map(question => [quizId, question.question]);
+        db.query('INSERT INTO questions (quiz_id, question_text) VALUES ?', [questionValues], (err, result) => {
+            if (err) {
+                console.error('Error inserting questions:', err);
+                res.status(500).send('Error creating quiz');
+                return;
+            }
+
+            const questionIds = result.insertId;
+
+            // Insert options into database
+            const optionValues = [];
+            questions.forEach((question, index) => {
+                question.options.forEach((option, optionIndex) => {
+                    // Check if the current optionIndex is the correctOption
+                    const isCorrect = optionIndex + 1 === question.correctOption ? 1 : 0;
+                    optionValues.push([questionIds[index], option, isCorrect]);
+                });
+            });
+
+            db.query('INSERT INTO options (question_id, option_text, is_correct) VALUES ?', [optionValues], (err, result) => {
+                if (err) {
+                    console.error('Error inserting options:', err);
+                    res.status(500).send('Error creating quiz');
+                    return;
+                }
+
+                res.status(201).send('Quiz created successfully');
+            });
+        });
+    });
+});
+
+
+
+
+
+
+app.get('/quiz/:quizId', (req, res) => {
+    const quizId = req.params.quizId;
+    const sql = `
+    SELECT q.quiz_name, 
+           qn.id AS question_id, 
+           qn.question_text, 
+           o.id AS option_id, 
+           o.option_text 
+      FROM quizzes q
+           INNER JOIN questions qn ON q.quiz_id = qn.quiz_id
+           INNER JOIN options o ON qn.id = o.question_id
+      WHERE q.quiz_id = ?
+  `;
+    db.query(sql, [quizId], (err, result) => {
+        if (err) {
+            throw err;
+        }
+        res.json(result);
+    });
+});
+
+
+// backend/server.js
+
+// After the existing code
+
+// Submit quiz
+app.post('/quiz/submit', (req, res) => {
+    const selectedOptions = req.body;
+
+    // Assuming selectedOptions is an object where keys are question ids and values are selected option ids
+    let score = 0;
+
+    // Loop through selected options and check if they are correct
+    for (const questionId in selectedOptions) {
+        const selectedOptionId = selectedOptions[questionId];
+
+        // Retrieve correct option id for the question from the database
+        const sql = `SELECT is_correct FROM options WHERE question_id = ? AND id = ?`;
+        db.query(sql, [questionId, selectedOptionId], (err, result) => {
+            if (err) {
+                throw err;
+            }
+
+            // If the selected option is correct, increment the score
+            if (result.length > 0 && result[0].is_correct === 1) {
+                score++;
+            }
+        });
+    }
+
+    // Send the score back to the frontend
+    res.json({ score });
+});
+
+
+
+
+
+
+
 
 
 
@@ -127,7 +243,7 @@ app.get('/',(req,res)=>{
     res.json("Hii charan");
 })
 app.listen(8080, () => {
-    console.log("listening in 8080");
+    console.log("Listening in 8080");
 });
 
 

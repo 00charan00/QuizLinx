@@ -14,12 +14,15 @@ app.use(cors({origin:'*'}));
 app.use(cookieparser());
 app.use(bodyParser.json());
 
-const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "1030",
-    database: "quizlinx"
-});
+const db=mysql.createConnection(`mysql://avnadmin:AVNS_wqJEv19TwrJJCpoRrZE@mysql-1501fbdc-charansdb.a.aivencloud.com:20259/quizlinx`);
+
+
+// const db = mysql.createConnection({
+//     host: "localhost",
+//     user: "root",
+//     password: "1030",
+//     database: "quizlinx"
+// });
 
 db.connect((err) => {
     if (err) {
@@ -119,52 +122,28 @@ app.post('/login', async (req, res) => {
     );
 });
 
-//charan
 
-app.post('/quiz', (req, res) => {
-    const { quizName, questions } = req.body;
+app.use(bodyParser.urlencoded({ extended: true }));
 
-    // Insert quiz into database
-    db.query('INSERT INTO quizzes (quiz_name) VALUES (?)', [quizName], (err, result) => {
-        if (err) {
-            console.error('Error inserting quiz:', err);
-            res.status(500).send('Error creating quiz');
-            return;
-        }
+// Routes
+app.post('/create-quiz', (req, res) => {
+    const { quizname, questions } = req.body;
+
+    // Insert quiz
+    db.query('INSERT INTO quiz (quizname) VALUES (?)', [quizname], (err, result) => {
+        if (err) throw err;
 
         const quizId = result.insertId;
 
-        // Insert questions into database
-        const questionValues = questions.map(question => [quizId, question.question]);
-        db.query('INSERT INTO questions (quiz_id, question_text) VALUES ?', [questionValues], (err, result) => {
-            if (err) {
-                console.error('Error inserting questions:', err);
-                res.status(500).send('Error creating quiz');
-                return;
-            }
-
-            const questionIds = result.insertId;
-
-            // Insert options into database
-            const optionValues = [];
-            questions.forEach((question, index) => {
-                question.options.forEach((option, optionIndex) => {
-                    // Check if the current optionIndex is the correctOption
-                    const isCorrect = optionIndex + 1 === question.correctOption ? 1 : 0;
-                    optionValues.push([questionIds[index], option, isCorrect]);
+        // Insert questions
+        questions.forEach((question) => {
+            db.query('INSERT INTO questions (question, opt1, opt2, opt3, opt4, ans, quizid) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                [question.question, question.opt1, question.opt2, question.opt3, question.opt4, question.ans, quizId], (err, result) => {
+                    if (err) throw err;
                 });
-            });
-
-            db.query('INSERT INTO options (question_id, option_text, is_correct) VALUES ?', [optionValues], (err, result) => {
-                if (err) {
-                    console.error('Error inserting options:', err);
-                    res.status(500).send('Error creating quiz');
-                    return;
-                }
-
-                res.status(201).send('Quiz created successfully');
-            });
         });
+
+        res.send('Quiz created successfully');
     });
 });
 
@@ -173,66 +152,29 @@ app.post('/quiz', (req, res) => {
 
 
 
-app.get('/quiz/:quizId', (req, res) => {
-    const quizId = req.params.quizId;
-    const sql = `
-    SELECT q.quiz_name, 
-           qn.id AS question_id, 
-           qn.question_text, 
-           o.id AS option_id, 
-           o.option_text 
-      FROM quizzes q
-           INNER JOIN questions qn ON q.quiz_id = qn.quiz_id
-           INNER JOIN options o ON qn.id = o.question_id
-      WHERE q.quiz_id = ?
-  `;
-    db.query(sql, [quizId], (err, result) => {
+
+
+app.get('/quizzes', (req, res) => {
+    db.query('SELECT * FROM quiz', (err, result) => {
         if (err) {
-            throw err;
+            res.status(500).send('Error fetching quizzes');
+            return;
         }
         res.json(result);
     });
 });
 
 
-// backend/server.js
-
-// After the existing code
-
-// Submit quiz
-app.post('/quiz/submit', (req, res) => {
-    const selectedOptions = req.body;
-
-    // Assuming selectedOptions is an object where keys are question ids and values are selected option ids
-    let score = 0;
-
-    // Loop through selected options and check if they are correct
-    for (const questionId in selectedOptions) {
-        const selectedOptionId = selectedOptions[questionId];
-
-        // Retrieve correct option id for the question from the database
-        const sql = `SELECT is_correct FROM options WHERE question_id = ? AND id = ?`;
-        db.query(sql, [questionId, selectedOptionId], (err, result) => {
-            if (err) {
-                throw err;
-            }
-
-            // If the selected option is correct, increment the score
-            if (result.length > 0 && result[0].is_correct === 1) {
-                score++;
-            }
-        });
-    }
-
-    // Send the score back to the frontend
-    res.json({ score });
+app.get('/quiz/:quizid', (req, res) => {
+    const { quizid } = req.params;
+    db.query('SELECT * FROM questions WHERE quizid = ?', [quizid], (err, result) => {
+        if (err) {
+            res.status(500).send('Error fetching questions');
+            return;
+        }
+        res.json(result);
+    });
 });
-
-
-
-
-
-
 
 
 

@@ -79,7 +79,7 @@ function Home() {
 
                         </div>
                         <div className="mt-32 mb-4 ml-12 ">
-                            <button
+                            <button onClick={()=>{navigate('/home/quizit')}}
                                 className="text-colour4 font-bold bg-colour3 border-2 rounded-full w-44 h-10 hover:scale-105">Participate
                             </button>
                         </div>

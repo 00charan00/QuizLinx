@@ -1,102 +1,90 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
 
-const QuizForm = () => {
-    const [quizName, setQuizName] = useState('');
-    const [questions, setQuestions] = useState([]);
+function App() {
+    const [quizname, setQuizname] = useState('');
+    const [questions, setQuestions] = useState([{ question: '', opt1: '', opt2: '', opt3: '', opt4: '', ans: '' }]);
+
+    const handleQuestionChange = (index, key, value) => {
+        const newQuestions = [...questions];
+        newQuestions[index][key] = value;
+        setQuestions(newQuestions);
+    };
 
     const addQuestion = () => {
-        setQuestions(prevQuestions => [...prevQuestions, { question: '', options: ['', '', '', ''], correctOption: 1 }]);
-    };
-
-    const handleQuestionChange = (index, value) => {
-        const updatedQuestions = [...questions];
-        updatedQuestions[index].question = value;
-        setQuestions(updatedQuestions);
-    };
-
-    const handleOptionChange = (index, optionIndex, value) => {
-        const updatedQuestions = [...questions];
-        updatedQuestions[index].options[optionIndex] = value;
-        setQuestions(updatedQuestions);
-    };
-
-    const handleCorrectOptionChange = (index, value) => {
-        const updatedQuestions = [...questions];
-        updatedQuestions[index].correctOption = parseInt(value); // Convert value to integer
-        setQuestions(updatedQuestions);
+        setQuestions([...questions, { question: '', opt1: '', opt2: '', opt3: '', opt4: '', ans: '' }]);
     };
 
     const handleSubmit = async () => {
         try {
-            await axios.post('http://localhost:8080/quiz', { quizName, questions });
-            alert("Quiz Created Successfully");
+            const res = await axios.post('http://localhost:8080/create-quiz', { quizname, questions });
+            console.log(res.data);
             window.location.reload();
-            // Clear form or navigate to another page
         } catch (error) {
-            console.error('Error creating quiz:', error);
+            console.error(error);
         }
     };
 
     return (
-        <div>
-            <Navbar/>
-        <div className="max-w-lg mx-auto mt-8 mb-96">
+        <div className="App bg-gray-100 min-h-screen p-4">
+            <h1 className="text-3xl font-bold mb-4">Create Quiz</h1>
             <input
                 type="text"
-                value={quizName}
-                onChange={e => setQuizName(e.target.value)}
-                placeholder="Quiz Name"
-                className="border border-gray-300 rounded px-4 py-2 mb-4 w-full"
+                placeholder="Enter Quiz Name"
+                value={quizname}
+                onChange={(e) => setQuizname(e.target.value)}
+                className="w-full p-2 mb-4 border rounded"
             />
             {questions.map((question, index) => (
-                <div key={index} className="mb-4">
+                <div key={index} className="mb-4 p-4 border rounded">
                     <input
                         type="text"
+                        placeholder="Enter Question"
                         value={question.question}
-                        onChange={e => handleQuestionChange(index, e.target.value)}
-                        placeholder="Question"
-                        className="border border-gray-300 rounded px-4 py-2 mb-2 w-full"
+                        onChange={(e) => handleQuestionChange(index, 'question', e.target.value)}
+                        className="w-full p-2 mb-2 border rounded"
                     />
-                    {question.options.map((option, optionIndex) => (
-                        <input
-                            key={optionIndex}
-                            type="text"
-                            value={option}
-                            onChange={e => handleOptionChange(index, optionIndex, e.target.value)}
-                            placeholder={`Option ${optionIndex + 1}`}
-                            className="border border-gray-300 rounded px-4 py-2 mb-2 w-full"
-                        />
-                    ))}
-                    <select
-                        value={question.correctOption}
-                        onChange={e => handleCorrectOptionChange(index, e.target.value)}
-                        className="border border-gray-300 rounded px-4 py-2 mb-2 w-full"
-                    >
-                        {question.options.map((_, optionIndex) => (
-                            <option key={optionIndex} value={optionIndex + 1}>{optionIndex + 1}</option>
-                        ))}
-                    </select>
+                    <input
+                        type="text"
+                        placeholder="Option 1"
+                        value={question.opt1}
+                        onChange={(e) => handleQuestionChange(index, 'opt1', e.target.value)}
+                        className="w-full p-2 mb-2 border rounded"
+                    />
+                    <input
+                        type="text"
+                        placeholder="Option 2"
+                        value={question.opt2}
+                        onChange={(e) => handleQuestionChange(index, 'opt2', e.target.value)}
+                        className="w-full p-2 mb-2 border rounded"
+                    />
+                    <input
+                        type="text"
+                        placeholder="Option 3"
+                        value={question.opt3}
+                        onChange={(e) => handleQuestionChange(index, 'opt3', e.target.value)}
+                        className="w-full p-2 mb-2 border rounded"
+                    />
+                    <input
+                        type="text"
+                        placeholder="Option 4"
+                        value={question.opt4}
+                        onChange={(e) => handleQuestionChange(index, 'opt4', e.target.value)}
+                        className="w-full p-2 mb-2 border rounded"
+                    />
+                    <input
+                        type="text"
+                        placeholder="Correct Option"
+                        value={question.ans}
+                        onChange={(e) => handleQuestionChange(index, 'ans', e.target.value)}
+                        className="w-full p-2 mb-2 border rounded"
+                    />
                 </div>
             ))}
-            <button
-                onClick={addQuestion}
-                className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
-            >
-                Add Question
-            </button>
-            <button
-                onClick={handleSubmit}
-                className="bg-green-500 text-white px-4 py-2 rounded"
-            >
-                Submit Quiz
-            </button>
-        </div>
-            <Footer/>
+            <button onClick={addQuestion} className="bg-blue-500 text-white px-4 py-2 rounded mr-2">Add Question</button>
+            <button onClick={handleSubmit} className="bg-green-500 text-white px-4 py-2 rounded">Create Quiz</button>
         </div>
     );
-};
+}
 
-export default QuizForm;
+export default App;

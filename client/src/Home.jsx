@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import './App.css';
 
+
 function Home() {
     return (
         <div className="bg-colour1 h-screen">

@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import { useNavigate } from "react-router-dom";
+
 
 function App() {
     const [quizname, setQuizname] = useState('');
     const [questions, setQuestions] = useState([{ question: '', opt1: '', opt2: '', opt3: '', opt4: '', ans: '' }]);
+    const navigate = useNavigate();
 
     const handleQuestionChange = (index, key, value) => {
         const newQuestions = [...questions];
@@ -19,7 +23,11 @@ function App() {
         try {
             const res = await axios.post('http://localhost:8080/create-quiz', { quizname, questions });
             console.log(res.data);
-            window.location.reload();
+
+
+            toast.success('Quiz created!');
+            navigate('/home');
+
         } catch (error) {
             console.error(error);
         }

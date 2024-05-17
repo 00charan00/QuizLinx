@@ -39,13 +39,13 @@ function AttendQuiz({ quizId }) {
     };
 
     return (
-        <div>
-            <h2>Quiz</h2>
+        <div className="container mx-auto p-4">
+            <h2 className="text-2xl font-bold mb-4">Quiz</h2>
             <div>
                 {questions.map(question => (
-                    <div key={question.questionid} className="border p-4 mb-4">
-                        <h3>{question.question}</h3>
-                        <div>
+                    <div key={question.questionid} className="border p-4 mb-4 rounded shadow">
+                        <h3 className="text-lg font-semibold">{question.question}</h3>
+                        <div className="mt-2">
                             <input
                                 type="radio"
                                 id={`option1_${question.questionid}`}
@@ -53,10 +53,11 @@ function AttendQuiz({ quizId }) {
                                 value={question.opt1}
                                 checked={answers[question.questionid] === question.opt1}
                                 onChange={() => handleAnswerChange(question.questionid, question.opt1)}
+                                className="mr-2"
                             />
-                            <label htmlFor={`option1_${question.questionid}`}>{question.opt1}</label>
+                            <label htmlFor={`option1_${question.questionid}`} className="text-gray-700">{question.opt1}</label>
                         </div>
-                        <div>
+                        <div className="mt-2">
                             <input
                                 type="radio"
                                 id={`option2_${question.questionid}`}
@@ -64,10 +65,11 @@ function AttendQuiz({ quizId }) {
                                 value={question.opt2}
                                 checked={answers[question.questionid] === question.opt2}
                                 onChange={() => handleAnswerChange(question.questionid, question.opt2)}
+                                className="mr-2"
                             />
-                            <label htmlFor={`option2_${question.questionid}`}>{question.opt2}</label>
+                            <label htmlFor={`option2_${question.questionid}`} className="text-gray-700">{question.opt2}</label>
                         </div>
-                        <div>
+                        <div className="mt-2">
                             <input
                                 type="radio"
                                 id={`option3_${question.questionid}`}
@@ -75,10 +77,11 @@ function AttendQuiz({ quizId }) {
                                 value={question.opt3}
                                 checked={answers[question.questionid] === question.opt3}
                                 onChange={() => handleAnswerChange(question.questionid, question.opt3)}
+                                className="mr-2"
                             />
-                            <label htmlFor={`option3_${question.questionid}`}>{question.opt3}</label>
+                            <label htmlFor={`option3_${question.questionid}`} className="text-gray-700">{question.opt3}</label>
                         </div>
-                        <div>
+                        <div className="mt-2">
                             <input
                                 type="radio"
                                 id={`option4_${question.questionid}`}
@@ -86,16 +89,15 @@ function AttendQuiz({ quizId }) {
                                 value={question.opt4}
                                 checked={answers[question.questionid] === question.opt4}
                                 onChange={() => handleAnswerChange(question.questionid, question.opt4)}
+                                className="mr-2"
                             />
-                            <label htmlFor={`option4_${question.questionid}`}>{question.opt4}</label>
+                            <label htmlFor={`option4_${question.questionid}`} className="text-gray-700">{question.opt4}</label>
                         </div>
-
-                        {/* Repeat similar pattern for other options */}
                     </div>
                 ))}
             </div>
-            <button onClick={handleSubmit}>Submit</button>
-            <div>Score: {score}</div>
+            <button onClick={handleSubmit} className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Submit</button>
+            <div className="mt-4 text-xl">Score: {score}</div>
         </div>
     );
 }

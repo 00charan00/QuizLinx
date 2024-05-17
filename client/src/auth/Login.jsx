@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import "../App.css";
 import logo from "../assets/logo.png";
+import { toast } from 'react-toastify';
 
 function Login() {
     const [loginStatus, setLoginStatus] = useState(false);
@@ -28,6 +29,7 @@ function Login() {
                 const { token, result } = response.data;
                 localStorage.setItem('token', token);
                 localStorage.setItem('userData', JSON.stringify(result));
+                toast.success("Login Successful");
                 navigate('/home');
 
             }

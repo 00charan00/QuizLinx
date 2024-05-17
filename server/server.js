@@ -182,7 +182,7 @@ app.get('/quiz/:quizid', (req, res) => {
 
 app.get('/',(req,res)=>{
     //function to check if backend is running in browser
-    res.json("Hii charan");
+    res.json("Hii charan, backend is running");
 })
 app.listen(8080, () => {
     console.log("Listening in 8080");

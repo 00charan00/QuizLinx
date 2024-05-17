@@ -19,7 +19,7 @@ function Register() {
     useEffect(() => {
         // Check if there are no errors and submit the form
         if (errors.name === "" && errors.email === "" && errors.password === "") {
-            axios.post('http://localhost:8080/register', values)
+            axios.post('https://quizlinx.onrender.com/register', values)
                 .then(res => {
                     navigate('/login');
                 })

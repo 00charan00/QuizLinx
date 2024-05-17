@@ -18,7 +18,7 @@ function Login() {
         event.preventDefault();
         console.log({ email, password });
         try {
-            const response = await axios.post('http://localhost:8080/login', {
+            const response = await axios.post('https://quizlinx.onrender.com/login', {
                 email:email,
                 password:password
             });
@@ -41,7 +41,7 @@ function Login() {
 
     const userauth = () => {
         axios
-            .get('http://localhost:8080/isAuth', {
+            .get('https://quizlinx.onrender.com/isAuth', {
                 headers: {
                     'x-access-token': localStorage.getItem('token'),
                 },

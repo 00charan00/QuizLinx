@@ -5,7 +5,7 @@ function Attend({ onSelectQuiz }) {
     const [quizzes, setQuizzes] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:8080/quizzes')
+        axios.get('https://quizlinx.onrender.com/quizzes')
             .then(res => {
                 setQuizzes(res.data);
             })

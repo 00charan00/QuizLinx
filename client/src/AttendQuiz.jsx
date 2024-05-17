@@ -7,7 +7,7 @@ function AttendQuiz({ quizId }) {
     const [score, setScore] = useState(0);
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/quiz/${quizId}`)
+        axios.get(`https://quizlinx.onrender.com/quiz/${quizId}`)
             .then(res => {
                 setQuestions(res.data);
                 const initialAnswers = {};

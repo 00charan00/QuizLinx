@@ -21,7 +21,7 @@ function App() {
 
     const handleSubmit = async () => {
         try {
-            const res = await axios.post('http://localhost:8080/create-quiz', { quizname, questions });
+            const res = await axios.post('https://quizlinx.onrender.com/create-quiz', { quizname, questions });
             console.log(res.data);
 
 

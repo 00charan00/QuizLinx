@@ -7,6 +7,9 @@ import quizimg1 from '../assets/quiz.png';
 function Attend({ onSelectQuiz }) {
     const [quizzes, setQuizzes] = useState([]);
 
+
+
+
     useEffect(() => {
         axios.get('https://quizlinx.onrender.com/quizzes')
             .then(res => {

@@ -22,8 +22,8 @@ function Home() {
                             <div className="">
                                 <div className="card w-60 bg-colour3 text-primary-content">
                                     <div className="card-body">
-                                        <h2 className="card-title text-colour2">Card title!</h2>
-                                        <p className="text-black">If a dog chews shoes whose shoes does he choose?</p>
+                                        <h2 className="card-title text-colour2">Intuitive Interface</h2>
+                                        <p className="text-black">Craft quizzes effortlessly with user-friendly tools.</p>
 
                                     </div>
                                 </div>
@@ -31,8 +31,8 @@ function Home() {
                             <div className="pl-5">
                                 <div className="card w-60 bg-colour3 text-primary-content">
                                     <div className="card-body">
-                                        <h2 className="card-title text-colour2">Card title!</h2>
-                                        <p className="text-black">If a dog chews shoes whose shoes does he choose?</p>
+                                        <h2 className="card-title text-colour2">Create with Ease</h2>
+                                        <p className="text-black">Create quizzes of any size with upto four options each</p>
 
                                     </div>
                                 </div>
@@ -57,8 +57,8 @@ function Home() {
                             <div className="">
                                 <div className="card w-60 bg-colour3 text-primary-content">
                                     <div className="card-body">
-                                        <h2 className="card-title text-colour2">Card title!</h2>
-                                        <p className="text-black">If a dog chews shoes whose shoes does he choose?</p>
+                                        <h2 className="card-title text-colour2">Diverse Quiz Selection</h2>
+                                        <p className="text-black">Explore quizzes covering various topics.</p>
 
                                     </div>
                                 </div>
@@ -66,8 +66,8 @@ function Home() {
                             <div className="pl-5">
                                 <div className="card w-60 bg-colour3 text-primary-content">
                                     <div className="card-body">
-                                        <h2 className="card-title text-colour2">Card title!</h2>
-                                        <p className="text-black">modal</p>
+                                        <h2 className="card-title text-colour2">Competitive Challenges</h2>
+                                        <p className="text-black">Engage in timed quizzes and competitive modes.</p>
 
                                     </div>
                                 </div>

@@ -7,9 +7,6 @@ function Validation(values) {
     {
         error.name="Name should not be empty";
     }
-    if(!/^[A-Z][a-zA-Z]*$/.test(values.name)) {
-        error.name = "Name should start with a capital letter";
-    }
     else
     {
         error.name=""

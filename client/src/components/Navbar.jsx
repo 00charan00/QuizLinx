@@ -56,7 +56,7 @@ const Navbarr = () => {
                     <Link to="/home/quiz" className="text-white hover:text-gray-300 font-bold">Create Quiz</Link>
                 </li>
                 <li className="pr-8">
-                    <Link to="/" className="text-white font-bold hover:text-gray-300">Attend Quiz</Link>
+                    <Link to="/home/quizit" className="text-white font-bold hover:text-gray-300">Attend Quiz</Link>
                 </li>
                 <li className="pr-8">
                     {userData ? (

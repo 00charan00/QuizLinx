@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
 
 
 function App() {
@@ -34,6 +36,9 @@ function App() {
     };
 
     return (
+        <div>
+            <Navbar/>
+
         <div className="App bg-gray-100 min-h-screen p-4">
             <h1 className="text-3xl font-bold mb-4">Create Quiz</h1>
             <input
@@ -91,6 +96,8 @@ function App() {
             ))}
             <button onClick={addQuestion} className="bg-blue-500 text-white px-4 py-2 rounded mr-2">Add Question</button>
             <button onClick={handleSubmit} className="bg-green-500 text-white px-4 py-2 rounded">Create Quiz</button>
+        </div>
+            <Footer/>
         </div>
     );
 }

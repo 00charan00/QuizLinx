@@ -1,13 +1,13 @@
 import Login from './auth/Login.jsx';
 import Register from './auth/Register.jsx';
-import Home from './Home.jsx';
-import Mhome from './Mhome.jsx';
-import Attend from './Attend.jsx';
-import AttendQuiz from './AttendQuiz.jsx';
-import Quizit from './Quizit.jsx';
+import Home from './components/Home.jsx';
+import Mhome from './components/Mhome.jsx';
+import Attend from './components/Attend.jsx';
+import AttendQuiz from './components/AttendQuiz.jsx';
+import Quizit from './components/Quizit.jsx';
 
 import {BrowserRouter, Routes, Route} from "react-router-dom";
-import Quiz from "./Quiz";
+import Quiz from "./components/Quiz";
 
 
 

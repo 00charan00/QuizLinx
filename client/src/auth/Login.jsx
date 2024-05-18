@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
-import "../App.css";
 import logo from "../assets/logo.png";
 import { toast } from 'react-toastify';
 

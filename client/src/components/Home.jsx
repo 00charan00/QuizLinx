@@ -29,7 +29,7 @@ function Home() {
                             <div className="pl-5">
                                 <div className="card w-60 bg-colour3 text-primary-content">
                                     <div className="card-body">
-                                        <h2 className="card-title text-colour2">Create with Ease</h2>
+                                        <h2 className="card-title text-colour2">Create with Ease!</h2>
                                         <p className="text-black">Create quizzes of any size with upto four options
                                             each</p>
 

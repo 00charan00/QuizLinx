@@ -16,7 +16,7 @@ function AttendQuiz({ quizId }) {
             document.title = "Tab Switched";
             localStorage.removeItem("token");
             localStorage.removeItem("userData");
-            // navigate('/');
+            navigate('/');
         };
 
         const handleFocus = () => {

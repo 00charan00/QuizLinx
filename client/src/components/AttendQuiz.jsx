@@ -4,22 +4,19 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useNavigate } from "react-router-dom";
 
-
 function AttendQuiz({ quizId }) {
     const [questions, setQuestions] = useState([]);
     const [answers, setAnswers] = useState({});
+    const [submitted, setSubmitted] = useState(false);
     const [score, setScore] = useState(0);
     const navigate = useNavigate();
-
 
     useEffect(() => {
         const handleBlur = () => {
             document.title = "Tab Switched";
-
             localStorage.removeItem("token");
             localStorage.removeItem("userData");
-            navigate('/');
-
+            // navigate('/');
         };
 
         const handleFocus = () => {
@@ -33,7 +30,7 @@ function AttendQuiz({ quizId }) {
             window.removeEventListener("blur", handleBlur);
             window.removeEventListener("focus", handleFocus);
         };
-    }, []);
+    }, [navigate]);
 
     useEffect(() => {
         axios.get(`https://quizlinx.onrender.com/quiz/${quizId}`)
@@ -51,8 +48,8 @@ function AttendQuiz({ quizId }) {
     }, [quizId]);
 
     const handleAnswerChange = (questionId, answer) => {
-        setAnswers(prevState => ({
-            ...prevState,
+        setAnswers(prevAnswers => ({
+            ...prevAnswers,
             [questionId]: answer,
         }));
     };
@@ -65,6 +62,7 @@ function AttendQuiz({ quizId }) {
             }
         });
         setScore(totalScore);
+        setSubmitted(true);
     };
 
     return (
@@ -73,30 +71,60 @@ function AttendQuiz({ quizId }) {
             <div className="container mx-auto p-4">
                 <h2 className="text-2xl font-bold mb-4">Quiz</h2>
                 <div>
-                    {questions.map(question => (
-                        <div key={question.questionid} className="border p-4 mb-4 rounded shadow">
-                            <h3 className="text-lg font-semibold">{question.question}</h3>
-                            <div className="mt-2">
-                                {['opt1', 'opt2', 'opt3', 'opt4'].map(option => (
-                                    <div key={option}>
-                                        <input
-                                            type="radio"
-                                            id={`${option}_${question.questionid}`}
-                                            name={`question_${question.questionid}`}
-                                            value={question[option]}
-                                            checked={answers[question.questionid] === question[option]}
-                                            onChange={() => handleAnswerChange(question.questionid, question[option])}
-                                            className="mr-2"
-                                        />
-                                        <label htmlFor={`${option}_${question.questionid}`} className="text-gray-700">{question[option]}</label>
+                    {questions.map(question => {
+                        const isWrong = submitted && answers[question.questionid] !== question.ans;
+                        return (
+                            <div
+                                key={question.questionid}
+                                className={`border p-4 mb-4 rounded shadow ${isWrong ? 'bg-red-200' : ''}`}
+                            >
+                                <h3 className="text-lg font-semibold">{question.question}</h3>
+                                <div className="mt-2">
+                                    {['opt1', 'opt2', 'opt3', 'opt4'].map(option => {
+                                        const isCorrect = submitted && question[option] === question.ans;
+                                        const isSelectedWrong = submitted && answers[question.questionid] === question[option] && question[option] !== question.ans;
+                                        return (
+                                            <div
+                                                key={option}
+                                                className={`mb-2 ${isCorrect ? 'font-bold' : ''} ${isCorrect ? 'text-green-600' : ''} ${isSelectedWrong ? 'font-bold' : ''} ${isSelectedWrong ? 'text-blue-700' : ''}`}
+                                            >
+                                                <input
+                                                    type="radio"
+                                                    id={`${option}_${question.questionid}`}
+                                                    name={`question_${question.questionid}`}
+                                                    value={question[option]}
+                                                    checked={answers[question.questionid] === question[option]}
+                                                    onChange={() => handleAnswerChange(question.questionid, question[option])}
+                                                    className="mr-2"
+                                                />
+                                                <label htmlFor={`${option}_${question.questionid}`} className="text-gray-700">{question[option]}</label>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                                {submitted && answers[question.questionid] !== question.ans && (
+                                    <div className="mt-2 font-bold text-xl text-green-600">
+                                        Correct Answer: {question.ans}
                                     </div>
-                                ))}
+                                )}
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
-                <button onClick={handleSubmit} className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Submit</button>
-                <div className="mt-4 text-xl">Score: {score}</div>
+                {!submitted && (
+                    <button onClick={handleSubmit} className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">
+                        Submit
+                    </button>
+                )}
+
+                {submitted && (
+                    <div>
+                        <div className="mt-4 text-xl">Score: {score}</div>
+                        <button className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700" onClick={()=>{navigate('/home')}}>Home</button>
+                    </div>
+                )}
+
+
             </div>
             <Footer/>
         </div>

@@ -11,7 +11,7 @@ function Home() {
             <div>
                 <div className="flex   mx-20 my-16 h-3/4 gap-5">
                     <div
-                        className="bg-colour2 text-white text-left rounded-2xl h-full pb-32 mb-20  mr-5  w-screen ">
+                        className=" text-white text-left rounded-2xl h-full pb-32 mb-20  mr-5  w-screen ">
                         <h2 className="p-10  font-sans text-5xl  font-bold text-red-300">
                             Create Quiz
                         </h2>
@@ -40,7 +40,7 @@ function Home() {
                         </div>
                     </div>
                     <div
-                        className="bg-colour2 text-white text-left rounded-2xl h-full pb-32 mb-20  mr-5  w-screen ">
+                        className=" bg-base-100 drop-shadow-md hover:drop-shadow-lg text-white text-left rounded-2xl h-full pb-32 mb-20  mr-5  w-screen ">
                         <h2 className="p-10  font-sans text-5xl  font-bold text-blue-300">
                             Participate
                         </h2>

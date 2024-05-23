@@ -86,7 +86,7 @@ function AttendQuiz({ quizId }) {
                                         return (
                                             <div
                                                 key={option}
-                                                className={`mb-2 ${isCorrect ? 'font-bold' : ''} ${isCorrect ? 'text-green-600' : ''} ${isSelectedWrong ? 'font-bold' : ''} ${isSelectedWrong ? 'text-blue-700' : ''}`}
+                                                className={`mb-2 ${isCorrect ? 'font-bold' : ''} ${isCorrect ? 'text-green-600' : ''} ${isSelectedWrong ? 'text-red-800' : ''} `}
                                             >
                                                 <input
                                                     type="radio"

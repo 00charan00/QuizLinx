@@ -11,6 +11,9 @@ function AttendQuiz({ quizId }) {
     const [score, setScore] = useState(0);
     const navigate = useNavigate();
 
+    const storedUserData = localStorage.getItem("userData");
+    const parsedUserData = storedUserData ? JSON.parse(storedUserData) : null;
+
     useEffect(() => {
         const handleBlur = () => {
             document.title = "Tab Switched";
@@ -62,6 +65,7 @@ function AttendQuiz({ quizId }) {
             }
         });
         setScore(totalScore);
+        console.log(parsedUserData ? parsedUserData.name : 'No user data');
         setSubmitted(true);
     };
 
@@ -123,8 +127,6 @@ function AttendQuiz({ quizId }) {
                         <button className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700" onClick={()=>{navigate('/home')}}>Home</button>
                     </div>
                 )}
-
-
             </div>
             <Footer/>
         </div>

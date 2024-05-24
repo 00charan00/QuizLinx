@@ -59,33 +59,38 @@ const Navbarr = () => {
                     <Link to="/home/quizit" className="text-white font-bold hover:text-gray-300">Attend Quiz</Link>
                 </li>
                 <li className="pr-8">
+                    <Link to="/home/results" className="text-white font-bold hover:text-gray-300">Results</Link>
+                </li>
+                <li className="pr-8">
                     {userData ? (
-                    <button className='text-white hover:text-gray-300 font-bold' onClick={handleLogout}>
-                        Logout
-                    </button>
+                        <button className='text-white hover:text-gray-300 font-bold' onClick={handleLogout}>
+                            Logout
+                        </button>
                     ) : (
-                    <Link to="/login" className="text-white hover:text-gray-300 font-bold" style={{ textDecoration: 'none' }}>
-                        <button className="">Login</button>
-                    </Link>
+                        <Link to="/login" className="text-white hover:text-gray-300 font-bold"
+                              style={{textDecoration: 'none'}}>
+                            <button className="">Login</button>
+                        </Link>
                     )}
                 </li>
                 <li className="pr-8 flex">
 
                     {userData && userData.name && (
                         <div className="flex">
-                        <div className="avatar">
-                            <div className="w-7 h-7 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                                <img src={profile}/>
+                            <div className="avatar">
+                                <div
+                                    className="w-7 h-7 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                                    <img src={profile}/>
+                                </div>
                             </div>
+                            <p className="text-teal-500 font-bold ml-3">{userData.name}</p>
                         </div>
-                        <p className="text-teal-500 font-bold ml-3">{userData.name}</p>
-                        </div>
-                )}
-            </li>
-        </ul>
-</nav>
-)
-    ;
+                    )}
+                </li>
+            </ul>
+        </nav>
+    )
+        ;
 };
 
 export default Navbarr;

@@ -196,6 +196,17 @@ app.post('/results', (req, res) => {
 });
 
 
+app.get('/getresults', (req, res) => {
+    const query = 'SELECT * FROM results';
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error fetching results:', err);
+            res.status(500).send('Error fetching results');
+            return;
+        }
+        res.status(200).json(results);
+    });
+});
 
 
 

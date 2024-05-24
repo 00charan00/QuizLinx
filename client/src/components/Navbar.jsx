@@ -14,7 +14,7 @@ const Navbarr = () => {
         if (storedUserData) {
             setUserData(JSON.parse(storedUserData));
         } else {
-            axios.get("http://localhost:8080/isAuth", {
+            axios.get("https://quizlinx.onrender.com/isAuth", {
                 headers: {
                     "x-access-token": localStorage.getItem("token"),
                 }

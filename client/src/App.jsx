@@ -8,6 +8,7 @@ import Quizit from './components/Quizit.jsx';
 
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Quiz from "./components/Quiz";
+import Results from "./components/Results";
 
 
 
@@ -23,6 +24,7 @@ function App() {
             <Route path='home/attend' element={<Attend />}></Route>
             <Route path='home/attendquiz' element={<AttendQuiz />}></Route>
             <Route path='home/quizit' element={<Quizit />}></Route>
+            <Route path='home/results' element={<Results />}></Route>
         </Routes>
       </BrowserRouter>
   );

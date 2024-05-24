@@ -214,7 +214,7 @@ function AttendQuiz({ quizId }) {
                 marks: totalScore.toString()
             };
 
-            axios.post('https://your-backend-url.com/results', resultData)
+            axios.post('https://quizlinx.onrender.com/results', resultData)
                 .then(response => {
                     console.log('Result saved successfully:', response.data);
                 })

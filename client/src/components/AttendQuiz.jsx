@@ -160,6 +160,7 @@ function AttendQuiz({ quizId }) {
             localStorage.removeItem("token");
             localStorage.removeItem("userData");
             navigate('/');
+            handleSubmit();
         };
 
         const handleFocus = () => {

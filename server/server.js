@@ -180,6 +180,30 @@ app.get('/quiz/:quizid', (req, res) => {
 
 
 
+
+app.post('/results', (req, res) => {
+    const { name, email, marks } = req.body;
+
+    const query = 'INSERT INTO results (name, email, marks) VALUES (?, ?, ?)';
+    db.query(query, [name, email, marks], (err, result) => {
+        if (err) {
+            console.error('Error inserting results:', err);
+            res.status(500).send('Error saving results');
+            return;
+        }
+        res.status(200).send('Results saved successfully');
+    });
+});
+
+
+
+
+
+
+
+
+
+
 app.get('/',(req,res)=>{
     //function to check if backend is running in browser
     res.json("Hii charan, backend is running");

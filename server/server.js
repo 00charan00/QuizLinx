@@ -126,30 +126,53 @@ app.post('/login', async (req, res) => {
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
-app.post('/create-quiz', (req, res) => {
-    const { quizname, questions } = req.body;
+// app.post('/create-quiz', (req, res) => {
+//     const { quizname, questions } = req.body;
+//
+//     // Insert quiz
+//     db.query('INSERT INTO quiz (quizname) VALUES (?)', [quizname], (err, result) => {
+//         if (err) throw err;
+//
+//         const quizId = result.insertId;
+//
+//         // Insert questions
+//         questions.forEach((question) => {
+//             db.query('INSERT INTO questions (question, opt1, opt2, opt3, opt4, ans, quizid) VALUES (?, ?, ?, ?, ?, ?, ?)',
+//                 [question.question, question.opt1, question.opt2, question.opt3, question.opt4, question.ans, quizId], (err, result) => {
+//                     if (err) throw err;
+//                 });
+//         });
+//
+//         res.send('Quiz created successfully');
+//     });
+// });
+//
 
-    // Insert quiz
-    db.query('INSERT INTO quiz (quizname) VALUES (?)', [quizname], (err, result) => {
+
+
+app.post('/create-quiz', (req, res) => {
+    const { quizname, questions, time_limit } = req.body; // Include time_limit in the request body
+
+    // Insert quiz with time_limit
+    db.query('INSERT INTO quiz (quizname, time_limit) VALUES (?, ?)', [quizname, time_limit], (err, result) => {
         if (err) throw err;
 
         const quizId = result.insertId;
 
         // Insert questions
         questions.forEach((question) => {
-            db.query('INSERT INTO questions (question, opt1, opt2, opt3, opt4, ans, quizid) VALUES (?, ?, ?, ?, ?, ?, ?)',
-                [question.question, question.opt1, question.opt2, question.opt3, question.opt4, question.ans, quizId], (err, result) => {
+            db.query(
+                'INSERT INTO questions (question, opt1, opt2, opt3, opt4, ans, quizid) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                [question.question, question.opt1, question.opt2, question.opt3, question.opt4, question.ans, quizId],
+                (err, result) => {
                     if (err) throw err;
-                });
+                }
+            );
         });
 
         res.send('Quiz created successfully');
     });
 });
-
-
-
-
 
 
 

@@ -125,7 +125,7 @@ app.post('/login', async (req, res) => {
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-Routes
+
 app.post('/create-quiz', (req, res) => {
     const { quizname, questions } = req.body;
 
@@ -146,6 +146,7 @@ app.post('/create-quiz', (req, res) => {
         res.send('Quiz created successfully');
     });
 });
+
 
 
 

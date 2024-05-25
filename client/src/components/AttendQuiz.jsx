@@ -6,7 +6,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 
 
-function App() {
+function AttendQuiz() {
     const [quizname, setQuizname] = useState('');
     const [questions, setQuestions] = useState([{ question: '', opt1: '', opt2: '', opt3: '', opt4: '', ans: '' }]);
     const navigate = useNavigate();
@@ -101,3 +101,5 @@ function App() {
         </div>
     );
 }
+
+export default AttendQuiz

@@ -177,6 +177,31 @@ app.post('/create-quiz', (req, res) => {
 
 
 
+// app.get('/quizzes', (req, res) => {
+//     db.query('SELECT * FROM quiz', (err, result) => {
+//         if (err) {
+//             res.status(500).send('Error fetching quizzes');
+//             return;
+//         }
+//         res.json(result);
+//     });
+// });
+//
+//
+// app.get('/quiz/:quizid', (req, res) => {
+//     const { quizid } = req.params;
+//     db.query('SELECT * FROM questions WHERE quizid = ?', [quizid], (err, result) => {
+//         if (err) {
+//             res.status(500).send('Error fetching questions');
+//             return;
+//         }
+//         res.json(result);
+//     });
+// });
+//
+
+
+// Fetch all quizzes
 app.get('/quizzes', (req, res) => {
     db.query('SELECT * FROM quiz', (err, result) => {
         if (err) {
@@ -187,20 +212,38 @@ app.get('/quizzes', (req, res) => {
     });
 });
 
-
+// Fetch quiz details including questions and time_limit
 app.get('/quiz/:quizid', (req, res) => {
     const { quizid } = req.params;
-    db.query('SELECT * FROM questions WHERE quizid = ?', [quizid], (err, result) => {
+
+    // Fetch quiz details
+    db.query('SELECT * FROM quiz WHERE quizid = ?', [quizid], (err, quizResult) => {
         if (err) {
-            res.status(500).send('Error fetching questions');
+            res.status(500).send('Error fetching quiz');
             return;
         }
-        res.json(result);
+
+        if (quizResult.length === 0) {
+            return res.status(404).send('Quiz not found');
+        }
+
+        const quiz = quizResult[0];
+
+        // Fetch questions for the quiz
+        db.query('SELECT * FROM questions WHERE quizid = ?', [quizid], (err, questionsResult) => {
+            if (err) {
+                res.status(500).send('Error fetching questions');
+                return;
+            }
+
+            res.json({
+                quizname: quiz.quizname,
+                time_limit: quiz.time_limit,
+                questions: questionsResult
+            });
+        });
     });
 });
-
-
-
 
 
 

@@ -33,9 +33,9 @@ function Attend({ onSelectQuiz }) {
                                 <h2 className="card-title">{quiz.quizname}</h2>
                                 <div className="card-actions justify-end ">
                                     <div >
-                                    <button className="btn btn-primary " onClick={() => onSelectQuiz(quiz.quizid)}>
-                                        Attend
-                                    </button>
+                                        <button className="btn btn-primary " onClick={() => onSelectQuiz(quiz.quizid)}>
+                                            Attend
+                                        </button>
                                     </div>
                                 </div>
                             </div>

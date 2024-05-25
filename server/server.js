@@ -125,7 +125,7 @@ app.post('/login', async (req, res) => {
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
+// Routes
 app.post('/create-quiz', (req, res) => {
     const { quizname, questions } = req.body;
 
@@ -150,30 +150,6 @@ app.post('/create-quiz', (req, res) => {
 
 
 
-
-// app.post('/create-quiz', (req, res) => {
-//     const { quizname, questions, time_limit } = req.body; // Include time_limit in the request body
-//
-//     // Insert quiz with time_limit
-//     db.query('INSERT INTO quiz (quizname, time_limit) VALUES (?, ?)', [quizname, time_limit], (err, result) => {
-//         if (err) throw err;
-//
-//         const quizId = result.insertId;
-//
-//         // Insert questions
-//         questions.forEach((question) => {
-//             db.query(
-//                 'INSERT INTO questions (question, opt1, opt2, opt3, opt4, ans, quizid) VALUES (?, ?, ?, ?, ?, ?, ?)',
-//                 [question.question, question.opt1, question.opt2, question.opt3, question.opt4, question.ans, quizId],
-//                 (err, result) => {
-//                     if (err) throw err;
-//                 }
-//             );
-//         });
-//
-//         res.send('Quiz created successfully');
-//     });
-// });
 
 
 
@@ -202,49 +178,6 @@ app.get('/quiz/:quizid', (req, res) => {
 
 
 
-// // Fetch all quizzes
-// app.get('/quizzes', (req, res) => {
-//     db.query('SELECT * FROM quiz', (err, result) => {
-//         if (err) {
-//             res.status(500).send('Error fetching quizzes');
-//             return;
-//         }
-//         res.json(result);
-//     });
-// });
-//
-// // Fetch quiz details including questions and time_limit
-// app.get('/quiz/:quizid', (req, res) => {
-//     const { quizid } = req.params;
-//
-//     // Fetch quiz details
-//     db.query('SELECT * FROM quiz WHERE quizid = ?', [quizid], (err, quizResult) => {
-//         if (err) {
-//             res.status(500).send('Error fetching quiz');
-//             return;
-//         }
-//
-//         if (quizResult.length === 0) {
-//             return res.status(404).send('Quiz not found');
-//         }
-//
-//         const quiz = quizResult[0];
-//
-//         // Fetch questions for the quiz
-//         db.query('SELECT * FROM questions WHERE quizid = ?', [quizid], (err, questionsResult) => {
-//             if (err) {
-//                 res.status(500).send('Error fetching questions');
-//                 return;
-//             }
-//
-//             res.json({
-//                 quizname: quiz.quizname,
-//                 time_limit: quiz.time_limit,
-//                 questions: questionsResult
-//             });
-//         });
-//     });
-// });
 
 
 
@@ -289,6 +222,3 @@ app.get('/',(req,res)=>{
 app.listen(8080, () => {
     console.log("Listening in 8080");
 });
-
-
-
